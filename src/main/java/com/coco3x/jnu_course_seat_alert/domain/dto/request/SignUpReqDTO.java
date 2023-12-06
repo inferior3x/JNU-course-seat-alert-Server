@@ -19,7 +19,7 @@ public class SignUpReqDTO {
     @Pattern(regexp = "^[a-zA-Z0-9!@#$%^&*()_+=-]{4,12}$", message = "비밀번호는 4~12글자의 영어, 숫자, 특수문자여야 합니다.")
     private String password;
 
-    public User toEntity(String userId, String password){
+    public User toEntity(){
         return User.builder()
                 .userId(userId)
                 .password(password)
