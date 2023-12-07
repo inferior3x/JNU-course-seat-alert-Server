@@ -23,5 +23,10 @@ public class GlobalExceptionHandler {
         else
             return ApiResponseCreator.fail("유효하지 않은 입력입니다.");
     }
+    //session 없을 때
+    @ExceptionHandler(IllegalAccessException.class)
+    public ApiResponse<?> handleIllegalAccessException(IllegalAccessException e){
+        return ApiResponseCreator.fail(e.getMessage());
+    }
 }
 
