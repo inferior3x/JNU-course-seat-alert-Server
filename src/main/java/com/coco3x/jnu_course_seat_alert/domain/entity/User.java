@@ -19,7 +19,7 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String pushNotificationId;
 
     @Builder
@@ -27,5 +27,9 @@ public class User {
         this.userId = userId;
         this.password = password;
         this.pushNotificationId = pushNotificationId;
+    }
+
+    public void updatePassword(String hashPassword){
+        this.password = hashPassword;
     }
 }
