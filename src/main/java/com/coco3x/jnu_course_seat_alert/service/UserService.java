@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class UserService {
@@ -19,4 +21,13 @@ public class UserService {
         User user = signUpReqDTO.toEntity();
         userRepository.save(user);
     }
+
+    public Long login(LogInReqDTO logInReqDTO){
+        User user = userRepository.findUserByUserId(logInReqDTO.getUserId())
+                .orElseThrow(()-> new IllegalArgumentException("아이디 혹은 비밀번호가 올바르지 않습니다."));
+        if (!user.getPassword().equals(logInReqDTO.getPassword()))
+            throw new IllegalArgumentException("아이디 혹은 비밀번호가 올바르지 않습니다.");
+        return user.getId();
+    }
+
 }
