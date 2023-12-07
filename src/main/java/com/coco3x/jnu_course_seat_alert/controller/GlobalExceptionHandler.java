@@ -34,5 +34,10 @@ public class GlobalExceptionHandler {
     public ApiResponse<?> handleDataIntegrityViolationException(){
         return ApiResponseCreator.fail("문제가 발생하였습니다. 다시 시도해주세요.");
     }
+    //회원가입 - 이미 있는 회원일 때
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ApiResponse<?> handleIllegalArgumentException(IllegalArgumentException e){
+        return ApiResponseCreator.fail(e.getMessage());
+    }
 }
 
