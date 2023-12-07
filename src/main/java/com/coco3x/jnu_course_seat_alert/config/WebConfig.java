@@ -1,6 +1,6 @@
 package com.coco3x.jnu_course_seat_alert.config;
 
-import com.coco3x.jnu_course_seat_alert.config.annotation.SessionMethodArgumentHandler;
+import com.coco3x.jnu_course_seat_alert.config.annotation.SessionMethodArgumentResolver;
 import com.coco3x.jnu_course_seat_alert.interceptor.AuthorizationCheckInterceptor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.bind.annotation.RestController;
@@ -30,6 +30,6 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
-        resolvers.add(new SessionMethodArgumentHandler());
+        resolvers.add(new SessionMethodArgumentResolver());
     }
 }
