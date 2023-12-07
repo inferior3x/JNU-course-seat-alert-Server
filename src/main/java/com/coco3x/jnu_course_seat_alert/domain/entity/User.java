@@ -19,9 +19,13 @@ public class User {
     @Column(nullable = false)
     private String password;
 
+    @Column(nullable = false)
+    private String pushNotificationId;
+
     @Builder
-    public User(String userId, String password){
+    public User(String userId, String password, String pushNotificationId){
         this.userId = userId;
         this.password = password;
+        this.pushNotificationId = pushNotificationId;
     }
 }
