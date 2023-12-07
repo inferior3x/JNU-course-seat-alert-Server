@@ -28,4 +28,8 @@ public class User {
         this.password = password;
         this.pushNotificationId = pushNotificationId;
     }
+
+    public void updatePassword(String hashPassword){
+        this.password = hashPassword;
+    }
 }
