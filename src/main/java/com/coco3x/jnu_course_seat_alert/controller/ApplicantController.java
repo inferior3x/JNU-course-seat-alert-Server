@@ -48,6 +48,7 @@ public class ApplicantController {
     public ApiResponse<?> deleteApplicantFromCourse(@Session(attr = "id") Long id, @RequestBody @Valid ApplicantDeleteReqDTO applicantDeleteReqDTO){
         User user = userService.findUserById(id);
         Course course = courseService.findCourseByCode(applicantDeleteReqDTO.getCode());
+        if (course == null) throw new IllegalArgumentException("유효하지 않은 강의입니다.");
         applicantService.deleteApplicantFromCourse(user, course);
         return ApiResponseCreator.success(new ApiMessage("삭제 완료"));
     }
