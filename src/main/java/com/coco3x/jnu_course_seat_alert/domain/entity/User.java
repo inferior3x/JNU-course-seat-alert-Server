@@ -19,7 +19,7 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    @Column(nullable = true)
+    @Column(nullable = true) //false 로 바꾸기
     private String pushNotificationId;
 
     @Builder
