@@ -1,0 +1,117 @@
+form{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: 100%;
+    margin: 0 auto 0 auto;
+    padding-top: 1rem;
+    background-color: rgb(230, 241, 227);
+    color: rgb(96, 96, 96);
+    border-radius: 0 0 10px 10px;
+    box-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+    position: absolute;
+    top: 0;
+}
+
+#spacer {
+    height: 8rem;
+}
+
+#name-field {
+    display: flex;
+    justify-content: space-between;
+    grid-column: span 2;
+    margin: 0.9% 1.5%;
+}
+#name-field label{
+    margin: auto 0;
+}
+#name-field input{
+    width: 70%;
+    height: 1.5rem;
+    border-radius: 10px;
+    border: 1px solid grey;
+}
+
+#code-field {
+    grid-column: span 2;
+    display: flex;
+    justify-content: space-between;
+    margin: 0.9% 1.5%;
+    
+}
+#code-field label{
+    margin: auto 0;
+}
+#code-field input{
+    width: 70%;
+    height: 1.5rem;
+    border-radius: 10px;
+    border: 1px solid grey;
+}
+
+.dd-field {
+    margin: 0.9% 3%;
+    display: flex;
+    justify-content: space-between;
+}
+.dd-field label {
+    margin: auto 0;
+}
+.dd-field select {
+    height: 1.6rem;
+    border-radius: 10px;
+    border: 1px solid grey;
+    width: 60%;
+}
+
+#add-course-btn{
+    grid-column: span 2;
+    margin: 0.9% 1.5% 1.8% 1.5%;
+    height: 1.6rem;
+    border-radius: 10px;
+    border: 1px solid grey;
+}
+
+#applied-course-status {
+    margin: 3%;
+}
+
+#courses-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 5%;
+    color: rgb(60,60,60);
+    width: 90%;
+}
+
+#courses-list li{
+    display: flex;
+    justify-content: space-between;
+    background-color: rgb(230, 239, 236);
+    border-radius: 12px;
+    margin: 0 0 0.8rem 0;
+    width: 100%;
+    box-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+}
+
+.name-span {
+    display: block;
+    margin: 0.3rem 0;
+}
+
+.course-info{
+    margin: 2% 3%;
+}
+.divide-span {
+    color: rgb(180, 180, 180);
+}
+
+.delete-course{
+    margin: auto 3%;
+}
+.delete-course button{
+    white-space: nowrap;
+    border: 1px solid grey;
+    border-radius: 3px;
+    color: rgb(57, 57, 57);
+}
