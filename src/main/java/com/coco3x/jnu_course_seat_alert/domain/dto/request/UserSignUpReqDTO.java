@@ -10,7 +10,7 @@ import lombok.Getter;
 
 @Getter
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public class SignUpReqDTO {
+public class UserSignUpReqDTO {
     @NotBlank(message = "아이디는 공백일 수 없습니다.")
     @Pattern(regexp = "^[a-zA-Z0-9]{4,12}$", message = "아이디는 4~12글자의 영어, 숫자여야 합니다.")
     private String userId;

@@ -4,8 +4,8 @@ import com.coco3x.jnu_course_seat_alert.config.apiresponse.ApiMessage;
 import com.coco3x.jnu_course_seat_alert.config.apiresponse.ApiResponse;
 import com.coco3x.jnu_course_seat_alert.config.apiresponse.ApiResponseCreator;
 import com.coco3x.jnu_course_seat_alert.config.constant.SessionConst;
-import com.coco3x.jnu_course_seat_alert.domain.dto.request.LogInReqDTO;
-import com.coco3x.jnu_course_seat_alert.domain.dto.request.SignUpReqDTO;
+import com.coco3x.jnu_course_seat_alert.domain.dto.request.UserLogInReqDTO;
+import com.coco3x.jnu_course_seat_alert.domain.dto.request.UserSignUpReqDTO;
 import com.coco3x.jnu_course_seat_alert.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
@@ -22,14 +22,14 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/signup")
-    public ApiResponse<?> signup(@RequestBody @Valid SignUpReqDTO signUpReqDTO){
-        userService.signup(signUpReqDTO);
+    public ApiResponse<?> signup(@RequestBody @Valid UserSignUpReqDTO userSignUpReqDTO){
+        userService.signup(userSignUpReqDTO);
         return ApiResponseCreator.success(new ApiMessage("회원가입 완료"));
     }
 
     @PostMapping("/login")
-    public ApiResponse<?> login(HttpSession session, @RequestBody @Valid LogInReqDTO logInReqDTO){
-        Long id = userService.login(logInReqDTO);
+    public ApiResponse<?> login(HttpSession session, @RequestBody @Valid UserLogInReqDTO userLogInReqDTO){
+        Long id = userService.login(userLogInReqDTO);
         session.setAttribute(SessionConst.ID, id);
         session.setAttribute(SessionConst.AUTHORIZATION, true);
         return ApiResponseCreator.success(new ApiMessage("로그인 완료"));
