@@ -33,7 +33,7 @@ public class UserService {
         return user.getId();
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public User findUserById(Long id){
         return userRepository.findUserById(id).orElse(null);
     }
