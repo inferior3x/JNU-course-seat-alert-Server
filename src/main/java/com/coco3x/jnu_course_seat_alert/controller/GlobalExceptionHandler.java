@@ -2,6 +2,8 @@ package com.coco3x.jnu_course_seat_alert.controller;
 
 import com.coco3x.jnu_course_seat_alert.config.apiresponse.ApiResponse;
 import com.coco3x.jnu_course_seat_alert.config.apiresponse.ApiResponseCreator;
+import com.coco3x.jnu_course_seat_alert.config.exception.CrawlerException;
+import com.coco3x.jnu_course_seat_alert.config.exception.ValidationCrawlerException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -39,5 +41,11 @@ public class GlobalExceptionHandler {
     public ApiResponse<?> handleIllegalArgumentException(IllegalArgumentException e){
         return ApiResponseCreator.fail(e.getMessage());
     }
+    //과목 유효성 검사 도중 에러 발생
+    @ExceptionHandler(CrawlerException.class)
+    public ApiResponse<?> handleCrawlerException(CrawlerException e){
+        return ApiResponseCreator.fail(e.getMessage());
+    }
+
 }
 
