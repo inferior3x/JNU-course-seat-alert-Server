@@ -1,0 +1,49 @@
+#jnu-logo {
+    width: 50%;
+    display: block;
+    margin: 6rem auto 3rem auto;
+}
+
+form{
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    margin: 0 auto 0 auto;
+    color: rgb(96, 96, 96);
+}
+
+form div{
+    margin: 0 0 1rem 0;
+}
+
+.personal-info-input {
+    display: block;
+    margin: 0.2rem auto;
+    width: 100%;
+    height: 2.5rem;
+    box-sizing:border-box;
+    border: 1px solid rgb(191, 195, 191);
+    border-radius: 12px;
+    font-size: 1.2rem;
+    color: rgb(96, 96, 96);
+}
+
+#spotlight-btn {
+    margin: 0.5rem 0;
+    border: 0px;
+    border-radius: 12px;
+    font-size: 1.2rem;
+    height: 2.5rem;
+    background-color: rgb(66, 149, 81);
+    color: white
+}
+
+#non-spotlight-btn{
+    margin: 0.5rem 0;
+    border: 0px;
+    border-radius: 12px;
+    font-size: 1.2rem;
+    height: 2.5rem;
+    color: white;
+    background-color: rgb(200,200,200);
+}
