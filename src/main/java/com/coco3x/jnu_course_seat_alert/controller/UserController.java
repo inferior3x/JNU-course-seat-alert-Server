@@ -1,5 +1,6 @@
 package com.coco3x.jnu_course_seat_alert.controller;
 
+import com.coco3x.jnu_course_seat_alert.config.annotation.Session;
 import com.coco3x.jnu_course_seat_alert.config.apiresponse.ApiMessage;
 import com.coco3x.jnu_course_seat_alert.config.apiresponse.ApiResponse;
 import com.coco3x.jnu_course_seat_alert.config.apiresponse.ApiResponseCreator;
@@ -33,6 +34,13 @@ public class UserController {
         session.setAttribute(SessionConst.ID, id);
         session.setAttribute(SessionConst.AUTHORIZATION, true);
         return ApiResponseCreator.success(new ApiMessage("로그인 완료"));
+    }
+
+    @PostMapping("logout")
+    public ApiResponse<?> logout(HttpSession session, @Session(attr = "id") Long id){
+        session.removeAttribute(SessionConst.ID);
+        session.removeAttribute(SessionConst.AUTHORIZATION);
+        return ApiResponseCreator.success(new ApiMessage("로그아웃 완료"));
     }
 
     @PostMapping("/example")
