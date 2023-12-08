@@ -14,15 +14,15 @@ import java.util.Optional;
 public class CourseService {
     private final CourseRepository courseRepository;
 
+
     @Transactional(readOnly = true)
     public Course findCourseByCode(String code){
         return courseRepository.findCourseByCode(code).orElse(null);
     }
 
-    @Transactional
     public void createCourse(CourseCreateReqDTO courseCreateReqDTO){
-        //크롤러에게 유효한 강의인지 검증 요청
-        //유효하면 등록
+        Course course = courseCreateReqDTO.toEntity();
+        courseRepository.save(course);
     }
 
 }

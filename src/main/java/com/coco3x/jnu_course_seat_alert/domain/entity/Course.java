@@ -23,10 +23,10 @@ public class Course {
     private boolean isOtherAlerted;
 
     @Builder
-    public Course(String code, String name, boolean isSelfAlerted, boolean isOtherAlerted) {
+    public Course(String code, String name) {
         this.code = code;
         this.name = name;
-        this.isSelfAlerted = isSelfAlerted;
-        this.isOtherAlerted = isOtherAlerted;
+        this.isSelfAlerted = false;
+        this.isOtherAlerted = false;
     }
 }
