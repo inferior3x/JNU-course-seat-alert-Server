@@ -13,10 +13,10 @@ public class Applicant {
     @Column(nullable = false)
     private int courseType;
     @ManyToOne
-    @Column(nullable = false)
+    @JoinColumn(nullable = false)
     private Course course;
     @ManyToOne
-    @Column(nullable = false)
+    @JoinColumn(nullable = false)
     private User user;
 
     @Builder
