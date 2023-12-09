@@ -1,0 +1,4 @@
+asyncio==3.4.3
+nest-asyncio==1.5.7
+pyppeteer==1.0.2
+mysql-connector-python 8.2.0
