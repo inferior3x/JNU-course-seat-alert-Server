@@ -1,28 +1,27 @@
 import nest_asyncio
 import asyncio
 import time
+from modules.database.mysql_database import create_connection
 nest_asyncio.apply()
 
 #부모에서는 쓰지 않을거라 선언만 해둠
 def worker():
     pass
 
+#DB연결
+connection = create_connection()
 
 #parent process --------------------------------------------------------------------
 if __name__ == "__main__":
     #import sys
     from math import ceil
-    from modules.database.mysql_database import create_connection
     from modules.function.mp_function import *
     from modules.config.mp_config import *
     from modules.function.util_function import (
         divide_range_by_number,
         divide_range_by_size)
     
-    #DB연결
-    connection = create_connection()
     cursor = connection.cursor()
-
 
     #프로세스 초기화
     alive_proc_num = 0 #실행 중인 프로세스 개수
@@ -53,7 +52,7 @@ if __name__ == "__main__":
             time.sleep(10)
 
         #찾아야 할 과목 가져오고, 과목 개수 얻고, 과목 개수에 따라 자식을 기다릴 기한 설정
-        cursor.execute("""SELECT code, name, grade, is_self_alerted, is_other_alerted
+        cursor.execute("""SELECT code, name, grade, is_self_alerted, is_other_alerted, id
         FROM course c
         WHERE EXISTS (
             SELECT 1
@@ -61,7 +60,7 @@ if __name__ == "__main__":
             WHERE a.course_id = c.id
         )""")
 
-        courses = cursor.fetchall()
+        courses = cursor.fetchall() # 0:code, 1: name, 2: grade, 3: is_self_alerted, 4: is_other_alerted, 5: id
 
         courses_num = len(courses)
 
@@ -162,6 +161,7 @@ else:
         delete_whitespace,
         divide_range_by_size,
         divide_range_by_number)
+    from modules.function.push_notification import send_push_notification
 
     #여석 체크
     async def check_seat(page, courses_to_find):
@@ -211,7 +211,38 @@ else:
 
                     #여석 수 변동있을경우 서버에 전달할 과목에 추가
                     if self_status + other_status != -2 :
-                        mutated_courses.extend([(course_to_find[0], self_status, other_status)])
+                        mutated_courses.extend([(course_to_find[5], course_to_find[0], self_status, other_status)])
+
+        cursor = connection.cursor()
+
+        for mutated_course in mutated_courses:
+            self_status = mutated_course[2]
+            other_status = mutated_course[3]
+            query = f"""SELECT a.user_id, a.course_type
+                    FROM course c
+                    INNER JOIN applicant a ON c.id = a.course_id
+                    WHERE c.id = {mutated_course[0]}"""
+            cursor.execute(query)
+            applicants_info = cursor.fetchall()
+            for applicant_info in applicants_info:
+                user_id = applicant_info[1]
+                status_for_this_applicant = other_status if user_id else self_status
+                if status_for_this_applicant == -1:
+                    continue
+                #세션 확인
+                #user_id로 푸시 아이디 가져오기
+                print(mutated_course[1])
+                query = f"""SELECT u.push_notification_id
+                    FROM user u
+                    WHERE u.id = {user_id}"""
+                cursor.execute(query)
+                push_token = cursor.fetchone()
+                # print(push_token)
+                send_push_notification(push_token,
+                            "여석이 생겼습니다!" if status_for_this_applicant else "여석이 사라졌습니다...",
+                            mutated_course[1], {}
+                )
+            #상태 설정
 
         return mutated_courses
 

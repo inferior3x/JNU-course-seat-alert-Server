@@ -9,10 +9,7 @@ function checkStatus(status){
     showOkModal("요청이 너무 많습니다.\n잠시 후 시도해주세요.");
     return;
   }
-  if (status === 500){
-    showOkModal("오류가 발생했습니다.\n다시 시도해주세요.");
-    return;
-  }
+  showOkModal("오류가 발생했습니다.\n다시 시도해주세요.");
 }
 
 async function fetchByPost(path, bodyData, funcForNotError, funcForError) {
@@ -28,7 +25,7 @@ async function fetchByPost(path, bodyData, funcForNotError, funcForError) {
         }
         if (response.ok) {
           const responseData = await response.json();
-          if (!responseData.error) {
+          if (responseData.success) {
             funcForNotError(responseData);
           } else {
             funcForError(responseData);
@@ -53,7 +50,7 @@ async function fetchByGet(path, funcForNotError, funcForError) {
     }
     if (response.ok) {
       const responseData = await response.json();
-      if (!responseData.error){
+      if (responseData.success){
         funcForNotError(responseData);
       }else{
         funcForError(responseData);
