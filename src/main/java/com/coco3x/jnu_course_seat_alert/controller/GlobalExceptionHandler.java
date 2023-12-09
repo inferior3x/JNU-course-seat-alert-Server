@@ -6,6 +6,7 @@ import com.coco3x.jnu_course_seat_alert.config.exception.CrawlerException;
 import com.coco3x.jnu_course_seat_alert.config.exception.ValidationCrawlerException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -13,6 +14,11 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+    //유효하지 않은 Http 메서드
+    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+    public ApiResponse<?> handleHttpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException e){
+        return ApiResponseCreator.fail("유효하지 않은 요청입니다.");
+    }
     //유효하지 않은 body
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ApiResponse<?> handleHttpMessageNotReadableException(HttpMessageNotReadableException e){
