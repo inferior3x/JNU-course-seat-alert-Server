@@ -4,10 +4,10 @@ const pushTokenElement = document.querySelector("#push_token");
 const loginBtnElement = document.querySelector("#spotlight-btn");
 
 const login = _.throttle(async () => {
-    if (pwElement.value === ""){
-        showOkModal("모바일 기기로 이용해주세요.");
-        return;
-    }
+    // if (pwElement.value === ""){
+    //     showOkModal("모바일 기기로 이용해주세요.");
+    //     return;
+    // }
     const bodyData = {
         'user_id': idElement.value,
         'password': pwElement.value,
@@ -18,7 +18,7 @@ const login = _.throttle(async () => {
     await fetchByPost("/api/user/login",
         bodyData,
         () => {window.location.href = "/course"},
-        (responseData) => {showOkModal(responseData.data.message)},
+        (responseData) => {showOkModal(responseData.message)},
     );
     hideSpinner();
 

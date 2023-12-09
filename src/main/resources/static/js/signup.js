@@ -21,20 +21,20 @@ const signup = _.throttle(async () => {
         () => { //auto login
             showOkModal("가입되었습니다.",
                 async () => {
-                    if (pwElement.value !== ""){
+                    if (pushTokenElement.value === ""){
                         showOkModal("모바일 기기로 이용해주세요.");
                         return;
                     }
-                    bodyData['push_token'] = pushTokenElement.value;
+                    bodyData['push_notification_id'] = pushTokenElement.value;
                     await fetchByPost("/api/user/login",
                         bodyData,
                         () => {window.location.href = "/course"},
-                        (responseData) => {showOkModal(responseData.data.message)},
+                        (responseData) => {showOkModal(responseData.message)},
                     );
                 }
             );
         },
-        (responseData) => {showOkModal(responseData.data.message)},
+        (responseData) => {showOkModal(responseData.message)},
     );
     hideSpinner();
 }, 1500);
