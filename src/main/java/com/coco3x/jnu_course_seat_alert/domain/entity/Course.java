@@ -39,6 +39,7 @@ public class Course {
         return CourseResDTO.builder()
                 .name(name)
                 .code(code)
+                .courseType(courseType)
                 .alerted(alerted)
                 .build();
     }

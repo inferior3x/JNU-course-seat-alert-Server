@@ -9,11 +9,13 @@ import lombok.RequiredArgsConstructor;
 public class CourseResDTO {
     private String code;
     private String name;
+    private int courseType;
     private boolean alerted;
     @Builder
-    public CourseResDTO(String code, String name, boolean alerted) {
+    public CourseResDTO(String code, String name, int courseType, boolean alerted) {
         this.code = code;
         this.name = name;
+        this.courseType = courseType;
         this.alerted = alerted;
     }
 }
