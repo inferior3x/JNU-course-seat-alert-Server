@@ -31,11 +31,6 @@ async def main():
             continue
         dict_data = json.loads(line)
 
-        # dict_data = {'name': '일반물리2',
-        #             'code': 'CLT0096-10',
-        #             'grade': '2'
-        #             }
-
         course_name = dict_data['name']
         course_code = dict_data['code']
         course_grade = dict_data['grade']
@@ -45,7 +40,7 @@ async def main():
             found = 0
 
             #드랍다운 선택
-            await set_dropdown_by_index(pages[0], TERM_DD_ATT, course_grade) #임시
+            await set_dropdown_by_index(pages[0], TERM_DD_ATT, "2") #임시
             await set_dropdown_by_index(pages[0], GRADE_DD_ATT, course_grade)
             
             #여석 가져올 교과목명 입력
@@ -85,7 +80,6 @@ async def main():
         except:
             print(json.dumps({'errorType': 3})) 
             sys.stdout.flush()
-        time.sleep(100000)
 
 
 nest_asyncio.apply()
