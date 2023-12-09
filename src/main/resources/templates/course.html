@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>알림 신청</title>
+  <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
+  <script src="/js/util/loading-spinner.js" defer></script>
+  <script src="/js/util/modal.js" defer></script>
+  <script src="/js/util/customed-fetch.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js" integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa" crossorigin="anonymous" defer></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">​
+  <link  rel="stylesheet" href="/css/shared.css">
+  <link rel="stylesheet" href="/css/course.css">
+<script src="/js/view/course.js" defer></script>
+</head>
+<body>
+
+<div class="modal fade" id="ok-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div id="ok-modal-body" class="modal-body" style="white-space: pre-wrap;"> </div>
+      <div class="modal-footer">
+        <button id="ok-modal-btn" type="button" class="btn btn-primary" data-bs-dismiss="modal">확인</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="question-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div id="question-modal-body" class="modal-body" style="white-space: pre-wrap;"> </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+        <button id="question-modal-btn" type="button" class="btn btn-primary" data-bs-dismiss="modal">확인</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="layerPopup">
+  <div class="spinner"></div>
+</div>
+
+<header>
+  <form>
+    <div id="name-field">
+      <label for="name">과목 이름</label>
+      <input type="text"name="name" id="name" value='' required/>
+    </div>
+    <div id="code-field">
+      <label for="code">과목코드-분반</label>
+      <input type="text" placeholder="ECE0000-1" name="code" id="code" value='' required />
+    </div>
+    <div class="dd-field">
+      <label for="grade">대상 학년</label>
+      <select id="grade" name="grade" required>
+        <option value="-1">선택</option>
+        <option value="1">1학년</option>
+        <option value="2">2학년</option>
+        <option value="3">3학년</option>
+        <option value="4">4학년</option>
+      </select>
+    </div>
+    <div class="dd-field">
+      <label for="type">구분</label>
+      <select id="type" name="type" required>
+        <option value="-1">선택</option>
+        <option value="0">자과</option>
+        <option value="1">타과</option>
+      </select>
+    </div>
+    <button type="button" id="add-course-btn">과목 추가</button>
+  </form>
+</header>
+<div id="spacer">.</div>
+<main>
+  <p id="applied-course-status">신청 과목 수 : <span>1</span> / <span>4</span></p>
+  <section id="course-section"></section>
+</main>
+
+<footer>
+  <img id="setting-btn" src="/img/setting.svg">
+</footer>
+
+
+</body>
+</html>

@@ -26,13 +26,12 @@ async function fetchByPost(path, bodyData, funcForNotError, funcForError) {
         if (response.ok) {
           const responseData = await response.json();
           if (responseData.success) {
-            funcForNotError(responseData);
+            funcForNotError(responseData.data);
           } else {
-            funcForError(responseData);
+            funcForError(responseData.data);
           }
         } else {
           showOkModal("다시 시도해주세요.");
-          return;
         }
       } catch (error) {
         console.log(error);
@@ -51,13 +50,12 @@ async function fetchByGet(path, funcForNotError, funcForError) {
     if (response.ok) {
       const responseData = await response.json();
       if (responseData.success){
-        funcForNotError(responseData);
+        funcForNotError(responseData.data);
       }else{
-        funcForError(responseData);
+        funcForError(responseData.data);
       }
     } else {
       showOkModal('다시 시도해주세요.');
-      return;
     }
   } catch (error) {
     console.log(error);
