@@ -4,7 +4,7 @@ const pushTokenElement = document.querySelector("#push_token");
 const loginBtnElement = document.querySelector("#spotlight-btn");
 
 const login = _.throttle(async () => {
-    if (pwElement.value !== ""){
+    if (pwElement.value === ""){
         showOkModal("모바일 기기로 이용해주세요.");
         return;
     }
