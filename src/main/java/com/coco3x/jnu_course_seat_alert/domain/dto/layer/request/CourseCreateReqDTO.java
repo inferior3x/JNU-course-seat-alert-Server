@@ -20,6 +20,7 @@ public class CourseCreateReqDTO {
         return Course.builder()
                 .code(code)
                 .name(name)
+                .grade(grade)
                 .build();
     }
 }
