@@ -13,4 +13,7 @@ public class UserLogInReqDTO {
 
     @NotBlank(message = "비밀번호는 공백일 수 없습니다.")
     private String password;
+
+    @NotBlank(message = "오류가 발생하였습니다. 다시 접속해주세요.")
+    private String pushNotificationId;
 }

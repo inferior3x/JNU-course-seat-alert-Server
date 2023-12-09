@@ -23,10 +23,11 @@ public class UserService {
         userRepository.save(user);
     }
 
-    @Transactional(readOnly = true)
+    @Transactional
     public Long login(UserLogInReqDTO userLogInReqDTO){
         User user = userRepository.findUserByUserId(userLogInReqDTO.getUserId())
                 .orElseThrow(()-> new IllegalArgumentException("아이디 혹은 비밀번호가 올바르지 않습니다."));
+        user.updatePushNotificationId(userLogInReqDTO.getPushNotificationId());
         if (!passwordEncoder.matches(userLogInReqDTO.getPassword(), user.getPassword()))
             throw new IllegalArgumentException("아이디 혹은 비밀번호가 올바르지 않습니다.");
 
