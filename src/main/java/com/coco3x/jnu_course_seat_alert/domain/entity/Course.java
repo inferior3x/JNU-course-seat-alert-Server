@@ -18,14 +18,17 @@ public class Course {
     @Column(nullable = false)
     private String name;
     @Column(nullable = false)
+    private String grade;
+    @Column(nullable = false)
     private boolean isSelfAlerted;
     @Column(nullable = false)
     private boolean isOtherAlerted;
 
     @Builder
-    public Course(String code, String name) {
+    public Course(String code, String name, String grade) {
         this.code = code;
         this.name = name;
+        this.grade = grade;
         this.isSelfAlerted = false;
         this.isOtherAlerted = false;
     }
