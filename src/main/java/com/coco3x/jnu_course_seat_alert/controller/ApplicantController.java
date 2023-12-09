@@ -27,7 +27,7 @@ public class ApplicantController {
     private final UserService userService;
     private final CourseValidationCrawler courseValidationCrawler;
 
-    @PostMapping()
+    @PostMapping("/course")
     public ApiResponse<?> enrollApplicantInCourse(@Session(attr = "id") Long id, @RequestBody @Valid ApplicantCreateReqDTO applicantCreateReqDTO){
         Course course = courseService.findCourseByCode(applicantCreateReqDTO.getCode());
         if (course == null) {
@@ -52,7 +52,7 @@ public class ApplicantController {
         return ApiResponseCreator.success(courseService.findAppliedCourses(user));
     }
 
-    @DeleteMapping()
+    @DeleteMapping("/course")
     public ApiResponse<?> deleteApplicantFromCourse(@Session(attr = "id") Long id, @RequestBody @Valid ApplicantDeleteReqDTO applicantDeleteReqDTO){
         User user = userService.findUserById(id);
         Course course = courseService.findCourseByCode(applicantDeleteReqDTO.getCode());
