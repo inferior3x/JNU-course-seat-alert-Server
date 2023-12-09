@@ -7,6 +7,7 @@ import com.coco3x.jnu_course_seat_alert.config.apiresponse.ApiResponseCreator;
 import com.coco3x.jnu_course_seat_alert.domain.dto.layer.request.CourseCreateReqDTO;
 import com.coco3x.jnu_course_seat_alert.domain.dto.request.ApplicantCreateReqDTO;
 import com.coco3x.jnu_course_seat_alert.domain.dto.request.ApplicantDeleteReqDTO;
+import com.coco3x.jnu_course_seat_alert.domain.dto.response.CourseResDTO;
 import com.coco3x.jnu_course_seat_alert.domain.entity.Course;
 import com.coco3x.jnu_course_seat_alert.domain.entity.User;
 import com.coco3x.jnu_course_seat_alert.service.ApplicantService;
@@ -43,6 +44,12 @@ public class ApplicantController {
         applicantService.enrollApplicantInCourse(applicantCreateReqDTO.getCourseType(), user, course);
 
         return ApiResponseCreator.success(new ApiMessage("-"));
+    }
+
+    @GetMapping("/courses")
+    public ApiResponse<?> findAppliedCourses(@Session(attr = "id") Long id){
+        User user = userService.findUserById(id);
+        return ApiResponseCreator.success(courseService.findAppliedCourses(user));
     }
 
     @DeleteMapping()

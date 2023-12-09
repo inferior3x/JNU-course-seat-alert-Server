@@ -1,5 +1,6 @@
 package com.coco3x.jnu_course_seat_alert.domain.entity;
 
+import com.coco3x.jnu_course_seat_alert.domain.dto.response.CourseResDTO;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -32,4 +33,14 @@ public class Course {
         this.isSelfAlerted = false;
         this.isOtherAlerted = false;
     }
+
+    public CourseResDTO toDTO(int courseType){
+        boolean alerted = (courseType == 0) ? isSelfAlerted : isOtherAlerted;
+        return CourseResDTO.builder()
+                .name(name)
+                .code(code)
+                .alerted(alerted)
+                .build();
+    }
+
 }
