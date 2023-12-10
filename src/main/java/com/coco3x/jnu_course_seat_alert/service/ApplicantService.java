@@ -14,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class ApplicantService {
     private final ApplicantRepository applicantRepository;
 
-    @Transactional
     public void deleteApplicantFromCourse(User user, Course course){
         applicantRepository.deleteApplicantByUserAndCourse(user, course);
     }
@@ -26,6 +25,11 @@ public class ApplicantService {
                 .user(user)
                 .build();
         applicantRepository.save(applicant);
+    }
+
+    @Transactional(readOnly = true)
+    public long countApplicants(User user){
+        return applicantRepository.countApplicantsByUser(user);
     }
 
 }

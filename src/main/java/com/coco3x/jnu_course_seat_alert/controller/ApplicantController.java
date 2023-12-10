@@ -4,6 +4,8 @@ import com.coco3x.jnu_course_seat_alert.config.annotation.Session;
 import com.coco3x.jnu_course_seat_alert.config.apiresponse.ApiMessage;
 import com.coco3x.jnu_course_seat_alert.config.apiresponse.ApiResponse;
 import com.coco3x.jnu_course_seat_alert.config.apiresponse.ApiResponseCreator;
+import com.coco3x.jnu_course_seat_alert.config.constant.CommonConst;
+import com.coco3x.jnu_course_seat_alert.config.exception.ApplicationLimitExceededException;
 import com.coco3x.jnu_course_seat_alert.domain.dto.layer.request.CourseCreateReqDTO;
 import com.coco3x.jnu_course_seat_alert.domain.dto.request.ApplicantCreateReqDTO;
 import com.coco3x.jnu_course_seat_alert.domain.dto.request.ApplicantDeleteReqDTO;
@@ -29,6 +31,10 @@ public class ApplicantController {
 
     @PostMapping("/course")
     public ApiResponse<?> enrollApplicantInCourse(@Session(attr = "id") Long id, @RequestBody @Valid ApplicantCreateReqDTO applicantCreateReqDTO){
+        User user = userService.findUserById(id);
+        if (applicantService.countApplicants(user) >= CommonConst.APPLICATION_LIMIT)
+            throw new ApplicationLimitExceededException("신청 가능한 강의 수는 "+ CommonConst.APPLICATION_LIMIT+"개입니다.");
+
         Course course = courseService.findCourseByCode(applicantCreateReqDTO.getCode());
         if (course == null) {
             String realName = courseValidationCrawler.validate(applicantCreateReqDTO.getCode(), applicantCreateReqDTO.getName(), applicantCreateReqDTO.getGrade());
@@ -39,7 +45,6 @@ public class ApplicantController {
                     .build());
         }
 
-        User user = userService.findUserById(id);
         course = courseService.findCourseByCode(applicantCreateReqDTO.getCode());
         applicantService.enrollApplicantInCourse(applicantCreateReqDTO.getCourseType(), user, course);
 

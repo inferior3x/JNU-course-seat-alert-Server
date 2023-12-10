@@ -2,6 +2,7 @@ package com.coco3x.jnu_course_seat_alert.controller;
 
 import com.coco3x.jnu_course_seat_alert.config.apiresponse.ApiResponse;
 import com.coco3x.jnu_course_seat_alert.config.apiresponse.ApiResponseCreator;
+import com.coco3x.jnu_course_seat_alert.config.exception.ApplicationLimitExceededException;
 import com.coco3x.jnu_course_seat_alert.config.exception.CrawlerException;
 import com.coco3x.jnu_course_seat_alert.config.exception.ValidationCrawlerException;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+
     //유효하지 않은 Http 메서드
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     public ApiResponse<?> handleHttpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException e){
@@ -52,6 +54,10 @@ public class GlobalExceptionHandler {
     public ApiResponse<?> handleCrawlerException(CrawlerException e){
         return ApiResponseCreator.fail(e.getMessage());
     }
-
+    //최대 신청 가능 개수에 도달했을 때 신청하려는 경우
+    @ExceptionHandler(ApplicationLimitExceededException.class)
+    public ApiResponse<?> handleApplicationLimitExceededException(ApplicationLimitExceededException e){
+        return ApiResponseCreator.fail(e.getMessage());
+    }
 }
 
