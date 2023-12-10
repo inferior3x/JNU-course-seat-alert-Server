@@ -46,7 +46,7 @@ public class ApplicantController {
         }
 
         course = courseService.findCourseByCode(applicantCreateReqDTO.getCode());
-        applicantService.enrollApplicantInCourse(applicantCreateReqDTO.getCourseType(), user, course);
+        applicantService.enrollApplicantInCourse(Integer.parseInt(applicantCreateReqDTO.getCourseType()), user, course);
 
         return ApiResponseCreator.success(new ApiMessage("-"));
     }
