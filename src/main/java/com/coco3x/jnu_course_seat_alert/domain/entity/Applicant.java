@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @Entity
 @NoArgsConstructor
+@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "course_id"})})
 public class Applicant {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,7 +21,6 @@ public class Applicant {
     @ManyToOne
     @JoinColumn(nullable = false)
     private User user;
-
     @Builder
     public Applicant(int courseType, Course course, User user) {
         this.courseType = courseType;

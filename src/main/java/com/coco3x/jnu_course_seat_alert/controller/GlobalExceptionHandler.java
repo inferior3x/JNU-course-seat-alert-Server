@@ -6,6 +6,7 @@ import com.coco3x.jnu_course_seat_alert.config.exception.ApplicationLimitExceede
 import com.coco3x.jnu_course_seat_alert.config.exception.CrawlerException;
 import com.coco3x.jnu_course_seat_alert.config.exception.ValidationCrawlerException;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -41,8 +42,13 @@ public class GlobalExceptionHandler {
     }
     //유니크 조건 위배
     @ExceptionHandler(DataIntegrityViolationException.class)
-    public ApiResponse<?> handleDataIntegrityViolationException(){
-        return ApiResponseCreator.fail("문제가 발생하였습니다. 다시 시도해주세요.");
+    public ApiResponse<?> handleDataIntegrityViolationException(DataIntegrityViolationException e){
+        String errorMessage = e.getMessage();
+        if (errorMessage.contains("Duplicate entry"))
+            return ApiResponseCreator.fail("중복 등록입니다.");
+        else
+            return ApiResponseCreator.fail("문제가 발생하였습니다. 다시 시도해주세요.", HttpStatus.INTERNAL_SERVER_ERROR.value());
+
     }
     //회원가입 - 이미 있는 회원일 때
     @ExceptionHandler(IllegalArgumentException.class)
