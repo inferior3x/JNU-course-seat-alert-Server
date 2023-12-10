@@ -56,6 +56,14 @@ async function fetchCourse() {
 }
 
 const addCourse = _.throttle(async () => {
+    if (gradeElement.value === "-1"){
+        showOkModal("학년을 선택해주세요.", ()=>{});
+        return;
+    }
+    if (typeElement.value === "-1"){
+        showOkModal("신청 구분을 선택해주세요.", ()=>{});
+        return;
+    }
     const bodyData = {
         name: nameElement.value,
         code: codeElement.value.toUpperCase(),
