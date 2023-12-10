@@ -62,3 +62,30 @@ async function fetchByGet(path, funcForNotError, funcForError) {
     showOkModal('네트워크 오류가 발생했습니다.');
   }
 }
+
+async function fetchByDelete(path, bodyData, funcForNotError, funcForError) {
+  try {
+    const response = await fetch(path, {
+      method: "DELETE",
+      body: JSON.stringify(bodyData),
+      headers: { "Content-Type": "application/json" },
+    });
+    if (response.status >= 400){
+      checkStatus(response.status);
+      return;
+    }
+    if (response.ok) {
+      const responseData = await response.json();
+      if (responseData.success) {
+        funcForNotError(responseData.data);
+      } else {
+        funcForError(responseData.data);
+      }
+    } else {
+      showOkModal("다시 시도해주세요.");
+    }
+  } catch (error) {
+    console.log(error);
+    showOkModal("네트워크 오류가 발생했습니다.");
+  }
+}
