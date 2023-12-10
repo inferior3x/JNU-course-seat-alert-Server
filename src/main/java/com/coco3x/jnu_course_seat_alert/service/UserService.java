@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
+    private final ApplicantService applicantService;
     private final PasswordEncoder passwordEncoder;
     public void signup(UserSignUpReqDTO userSignUpReqDTO){
         if (userRepository.existsByUserId(userSignUpReqDTO.getUserId()))
@@ -37,5 +38,11 @@ public class UserService {
     @Transactional(readOnly = true)
     public User findUserById(Long id){
         return userRepository.findUserById(id).orElse(null);
+    }
+
+    @Transactional
+    public void withdraw(Long id){
+        applicantService.deleteApplicantFromAllCourses(findUserById(id));
+        userRepository.deleteUserById(id);
     }
 }

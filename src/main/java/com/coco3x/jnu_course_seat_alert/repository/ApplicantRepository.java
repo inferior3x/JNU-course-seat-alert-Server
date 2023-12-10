@@ -11,6 +11,6 @@ import java.util.Optional;
 public interface ApplicantRepository extends JpaRepository<Applicant, Long> {
     List<Applicant> findApplicantsByUser(User user);
     void deleteApplicantByUserAndCourse(User user, Course course);
-
+    void deleteApplicantsByUser(User user);
     long countApplicantsByUser(User user);
 }

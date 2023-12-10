@@ -14,9 +14,16 @@ import org.springframework.transaction.annotation.Transactional;
 public class ApplicantService {
     private final ApplicantRepository applicantRepository;
 
+    @Transactional
     public void deleteApplicantFromCourse(User user, Course course){
         applicantRepository.deleteApplicantByUserAndCourse(user, course);
     }
+
+    @Transactional
+    public void deleteApplicantFromAllCourses(User user){
+        applicantRepository.deleteApplicantsByUser(user);
+    }
+
 
     public void enrollApplicantInCourse(int courseType, User user, Course course){
         Applicant applicant = Applicant.builder()

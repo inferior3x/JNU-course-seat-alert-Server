@@ -7,14 +7,12 @@ import com.coco3x.jnu_course_seat_alert.config.apiresponse.ApiResponseCreator;
 import com.coco3x.jnu_course_seat_alert.config.constant.SessionConst;
 import com.coco3x.jnu_course_seat_alert.domain.dto.request.UserLogInReqDTO;
 import com.coco3x.jnu_course_seat_alert.domain.dto.request.UserSignUpReqDTO;
+import com.coco3x.jnu_course_seat_alert.service.ApplicantService;
 import com.coco3x.jnu_course_seat_alert.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/user")
@@ -43,9 +41,13 @@ public class UserController {
         return ApiResponseCreator.success(new ApiMessage("로그아웃 완료"));
     }
 
-    @PostMapping("/example")
-    public ApiResponse<?> example(){
-        return ApiResponseCreator.success(new ApiMessage("success"));
+    @DeleteMapping("/withdraw")
+    public ApiResponse<?> withdraw(HttpSession session, @Session(attr = "id") Long id){
+        session.removeAttribute(SessionConst.ID);
+        session.removeAttribute(SessionConst.AUTHORIZATION);
+        userService.withdraw(id);
+        return ApiResponseCreator.success(new ApiMessage("탈퇴 완료"));
     }
+
 
 }
