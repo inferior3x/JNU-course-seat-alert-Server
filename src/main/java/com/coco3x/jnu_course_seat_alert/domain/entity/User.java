@@ -19,7 +19,7 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    @Column(nullable = true) //false 로 바꾸기
+    @Column
     private String pushNotificationId;
 
     @Builder
@@ -31,5 +31,8 @@ public class User {
 
     public void updatePassword(String hashPassword){
         this.password = hashPassword;
+    }
+    public void updatePushNotificationId(String pushNotificationId){
+        this.pushNotificationId = pushNotificationId;
     }
 }
