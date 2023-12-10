@@ -13,7 +13,7 @@ function coursesUlGenerator(courses) {
     const ulElement = document.createElement("ul");
     ulElement.id = "courses-list";
     for (const course of courses) {
-        course.type = (course.type === 0) ? "자과" : "타과";
+        course.course_type = (course.course_type === 0) ? "자과" : "타과";
         course.alerted = course.alerted === true ? "여석 존재" : "여석 없음";
         const liElement = document.createElement("li");
         ulElement.appendChild(liElement);
