@@ -1,15 +1,14 @@
 import nest_asyncio
 import asyncio
 import time
-from modules.database.mysql_database import create_connection
+
 nest_asyncio.apply()
 
 #부모에서는 쓰지 않을거라 선언만 해둠
 def worker():
     pass
 
-#DB연결
-connection = create_connection()
+
 
 #parent process --------------------------------------------------------------------
 if __name__ == "__main__":
@@ -20,8 +19,7 @@ if __name__ == "__main__":
     from modules.function.util_function import (
         divide_range_by_number,
         divide_range_by_size)
-    
-    cursor = connection.cursor()
+    from modules.database.mysql_database import create_connection
 
     #프로세스 초기화
     alive_proc_num = 0 #실행 중인 프로세스 개수
@@ -39,7 +37,11 @@ if __name__ == "__main__":
 
     #찾을 과목 가져오고, 자식들에게 나눠서 보내고, 자식들의 작업이 끝나면 다시 반복
     while True:
+        connection = create_connection()
+        cursor = connection.cursor()
         start_time_for_one_cycle = time.time()
+
+        print('----------------사이클 시작----------------')
 
         #자식 프로세스 재시작할지?
         if restart_child == True:
@@ -50,7 +52,6 @@ if __name__ == "__main__":
             restart_child = False
             #자식이 켜질 때까지 기다림
             time.sleep(10)
-
         #찾아야 할 과목 가져오고, 과목 개수 얻고, 과목 개수에 따라 자식을 기다릴 기한 설정
         cursor.execute("""SELECT code, name, grade, is_self_alerted, is_other_alerted, id
         FROM course c
@@ -63,11 +64,14 @@ if __name__ == "__main__":
         courses = cursor.fetchall() # 0:code, 1: name, 2: grade, 3: is_self_alerted, 4: is_other_alerted, 5: id
 
         courses_num = len(courses)
+        cursor.close()
+        connection.close()
 
         #살아있는 프로세스 개수
         alive_proc_num = sum(1 for i in range(PROCESS_NUMBER) if procs[i].is_alive())
 
-        push_and_flush_stdout('log', f'course_num:{courses_num}; alive_proc:{alive_proc_num};')
+        print(f'등록된 강의 수: {courses_num}')
+        print(f'살아있는 프로세스 수: {alive_proc_num}')
 
         #신청 과목 없을 땐 살아있는 프로세스도 없어야 함. 둘 다 0이면 다음 로직을 실행하지 않고 과목 수만 체크할 수 있도록 continue 실행
         if not courses_num and not alive_proc_num:
@@ -111,11 +115,12 @@ if __name__ == "__main__":
             try:
                 pipe.send(data)
                 sended_data_to_proc_num += 1
-                push_and_flush_stdout('log', f'parent to child{i} : sended') #
+                print(f'{i}번 프로세스에게 등록된 강의({start}~{end}) 전송')
+                # push_and_flush_stdout('log', f'parent to child{i} : sended')
             except Exception as error:
                 push_and_flush_stdout('log', f'parent to child{i} : error : {error}') # 경우1 : 프로세스 퍼져서 파이프 닫혔을 때
         
-        
+        print(f'데드라인: {deadline_to_wait_child}초')
         #파이프 수신 - 자식 프로세스들이 완료될 때까지 기다림
         received_data_num = 0
         start_time_to_wait_child = time.time()
@@ -132,10 +137,10 @@ if __name__ == "__main__":
                 push_and_flush_stdout('log', f"timeover : failed to wait child")
                 break
 
-        push_and_flush_stdout('log', f'wait_child: {round(time.time() - start_time_to_wait_child, 3)}s')
-        push_and_flush_stdout('log', f'one_cycle: {round(time.time() - start_time_for_one_cycle, 3)}s')
+        print(f'모든 강의 여석 확인에 걸린 시간: {round(time.time() - start_time_for_one_cycle, 3)}s')
+        # push_and_flush_stdout('log', f'wait_child: {round(time.time() - start_time_to_wait_child, 3)}s')
+        # push_and_flush_stdout('log', f'one_cycle: {round(time.time() - start_time_for_one_cycle, 3)}s')
 
-        time.sleep(2)
 
 #child process --------------------------------------------------------------------
 else:
@@ -162,6 +167,7 @@ else:
         divide_range_by_size,
         divide_range_by_number)
     from modules.function.push_notification import send_push_notification
+    from modules.database.mysql_database import create_connection_pool, create_connection
 
     #여석 체크
     async def check_seat(page, courses_to_find):
@@ -211,8 +217,12 @@ else:
 
                     #여석 수 변동있을경우 서버에 전달할 과목에 추가
                     if self_status + other_status != -2 :
+                        print(f'''    [{course_to_find[0]}] - {f"(자과 여석 {'생김' if self_status else '사라짐'})" if (self_status != -1) else ""} {f"(타과 여석 {'생김' if other_status else '사라짐'})" if (other_status != -1) else ""}''')
                         mutated_courses.extend([(course_to_find[5], course_to_find[0], self_status, other_status)])
 
+
+        pool = create_connection_pool()
+        connection = pool.get_connection()
         cursor = connection.cursor()
 
         for mutated_course in mutated_courses:
@@ -225,30 +235,33 @@ else:
             cursor.execute(query)
             applicants_info = cursor.fetchall()
             for applicant_info in applicants_info:
-                user_id = applicant_info[1]
-                status_for_this_applicant = other_status if user_id else self_status
+            
+                user_id = applicant_info[0]
+                course_type = applicant_info[1]
+                status_for_this_applicant = other_status if course_type else self_status
                 if status_for_this_applicant == -1:
                     continue
                 #세션 확인
-                #user_id로 푸시 아이디 가져오기
-                print(mutated_course[1])
                 query = f"""SELECT u.push_notification_id
                     FROM user u
                     WHERE u.id = {user_id}"""
                 cursor.execute(query)
                 push_token = cursor.fetchone()
-                # print(push_token)
+                cursor.reset()
                 send_push_notification(push_token,
                             "여석이 생겼습니다!" if status_for_this_applicant else "여석이 사라졌습니다...",
                             mutated_course[1], {}
                 )
             #상태 설정
+        cursor.close()
+        connection.close()
 
-        return mutated_courses
+        return
+        # return mutated_courses
 
     #자식 프로세스의 원동력
     def worker(pipe, pid):
-        browser = asyncio.run(create_browser(False))
+        browser = asyncio.run(create_browser(True))
         pages = asyncio.run(create_new_pages(browser, URL, PAGE_NUMBER))
 
         while True:
@@ -272,13 +285,14 @@ else:
                     #for문으로 각 페이지에게 넘겨줘야 할 강의들을 태스크로 만들고 실행
                     tasks = [loop.create_task(check_seat(pages[i], courses[courses_ranges[i][0]:courses_ranges[i][1]+1])) for i in range(len(courses_ranges))]
                     #각 페이지로부터 반환된 리스트가 한 리스트로 합쳐져 반환 (따라서 mutated_courses는 한 프로세스의 결과물)
-                    mutated_courses = loop.run_until_complete(asyncio.gather(*tasks))
-                    flattened_mutated_courses = [course for sublist in mutated_courses for course in sublist] #중첩된 리스트를 가공해서 1차? 중첩되지 않은? 리스트로 변환
+                    loop.run_until_complete(asyncio.gather(*tasks))
+                    # mutated_courses = loop.run_until_complete(asyncio.gather(*tasks))
+                    # flattened_mutated_courses = [course for sublist in mutated_courses for course in sublist] #중첩된 리스트를 가공해서 1차? 중첩되지 않은? 리스트로 변환
 
                     try:
                         pipe.send(True)
-                        if len(flattened_mutated_courses):
-                            push_and_flush_stdout('finding', flattened_mutated_courses)
+                        # if len(flattened_mutated_courses):
+                        #     push_and_flush_stdout('finding', flattened_mutated_courses)
                     except Exception as error:
                         ##실패하면 received_data 어떻게 처리하게 할지?
                         pipe.send(False)

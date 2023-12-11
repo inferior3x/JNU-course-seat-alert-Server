@@ -31,7 +31,7 @@ def create_pipes(process_number):
 def create_process(func, args = (), i=-1):
     proc = mp.Process(target=func, args= args + (i,))
     proc.start()
-    push_and_flush_stdout('log', f"process{i} : started")
+    print(f'{i}번 프로세스 시작됨')
     return proc
 
 #크롤러에게 브라우저 닫으라고 하고 프로세스 닫기
@@ -42,5 +42,5 @@ def close_process(proc, pipe, i=-1):
         proc.join(timeout=10)
     if proc.is_alive():
         proc.terminate()
-    push_and_flush_stdout('log', f"process{i} : closed")
+    print('log', f"{i}번 프로세스 종료됨")
 

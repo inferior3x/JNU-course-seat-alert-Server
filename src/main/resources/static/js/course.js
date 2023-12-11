@@ -13,7 +13,7 @@ function coursesUlGenerator(courses) {
     const ulElement = document.createElement("ul");
     ulElement.id = "courses-list";
     for (const course of courses) {
-        course.course_type = (course.course_type === 0) ? "자과" : "타과";
+        course.courseType = (course.courseType === 0) ? "자과" : "타과";
         course.alerted = course.alerted === true ? "여석 존재" : "여석 없음";
         const liElement = document.createElement("li");
         ulElement.appendChild(liElement);
@@ -23,7 +23,7 @@ function coursesUlGenerator(courses) {
         <span class="name-span">${course.name}</span>
         <span class="code-span">${course.code}</span>
         <span class="divide-span">|</span>
-        <span class="type-span">${course.course_type}</span>
+        <span class="type-span">${course.courseType}</span>
         <span class="divide-span">|</span>
         <span class="alerted-span">${course.alerted}</span>
       </div>
