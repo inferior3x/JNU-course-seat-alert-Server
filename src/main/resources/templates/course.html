@@ -11,7 +11,10 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">​
   <link  rel="stylesheet" href="/css/shared.css">
   <link rel="stylesheet" href="/css/course.css">
-<script src="/js/course.js" defer></script>
+  <link rel="stylesheet" href="/css/setting-overlay.css">
+  <script src="/js/course.js" defer></script>
+  <script src="/js/setting-overlay.js" defer></script>
+
 </head>
 <body>
 
@@ -73,7 +76,7 @@
 </header>
 <div id="spacer">.</div>
 <main>
-  <p id="applied-course-status">신청 과목 수 : <span>1</span> / <span>4</span></p>
+  <p id="applied-course-status">신청 과목 수 : <span>0</span> / <span>3</span></p>
   <section id="course-section"></section>
 </main>
 
@@ -81,6 +84,20 @@
   <img id="setting-btn" src="/img/setting.svg">
 </footer>
 
+<div id="setting-overlay">
+
+  <h1 id="close-setting-btn">&larr;</h1>
+
+  <h2 class="setting-title">계정 설정</h2>
+  <p id="account-delete-btn" class="setting-body">계정 탈퇴</p>
+  <p id="logout-btn" class="setting-body">로그아웃</p>
+
+  <h2 class="setting-title">환경 설정</h2>
+  <p id="sound-btn" class="setting-body">소리 알림</p>
+
+  <h2 class="setting-title">서비스 정보</h2>
+  <p id="version-btn" class="setting-body">버전</p>
+</div>
 
 </body>
 </html>

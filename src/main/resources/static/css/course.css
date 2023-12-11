@@ -13,66 +13,81 @@ form{
 }
 
 #spacer {
-    height: 8rem;
+    height: 20rem;
 }
 
 #name-field {
     display: flex;
     justify-content: space-between;
     grid-column: span 2;
-    margin: 0.9% 1.5%;
+    margin: 1% 1.5%;
 }
 #name-field label{
     margin: auto 0;
+    font-size: 2rem;
 }
 #name-field input{
     width: 70%;
-    height: 1.5rem;
-    border-radius: 10px;
+    height: 4rem;
+    border-radius: 40px;
     border: 1px solid grey;
+    padding-left: 1rem;
+    font-size: 2rem;
 }
 
 #code-field {
     grid-column: span 2;
     display: flex;
     justify-content: space-between;
-    margin: 0.9% 1.5%;
+    margin: 1% 1.5%;
     
 }
 #code-field label{
     margin: auto 0;
+    font-size: 2rem;
 }
 #code-field input{
     width: 70%;
-    height: 1.5rem;
-    border-radius: 10px;
+    height: 4rem;
+    border-radius: 40px;
     border: 1px solid grey;
+    padding-left: 1rem;
+    font-size: 2rem;
 }
 
 .dd-field {
-    margin: 0.9% 3%;
+    margin: 1.1% 3%;
     display: flex;
     justify-content: space-between;
 }
 .dd-field label {
     margin: auto 0;
+    font-size: 2rem;
 }
 .dd-field select {
-    height: 1.6rem;
-    border-radius: 10px;
+    height: 4rem;
+    border-radius: 40px;
     border: 1px solid grey;
     width: 60%;
+    font-size: 2rem;
+    padding-left: 20px;
+    -webkit-appearance: none; /* Chrome, Safari, Edge에 대한 기본 화살표 숨기기 */
+    -moz-appearance: none; /* Firefox에 대한 기본 화살표 숨기기 */
+    appearance: none; /* 기본 화살표 숨기기 */
 }
+
 
 #add-course-btn{
     grid-column: span 2;
-    margin: 0.9% 1.5% 1.8% 1.5%;
-    height: 1.6rem;
-    border-radius: 10px;
+    margin: 1.2% 1.5% 1.8% 1.5%;
+    height: 4rem;
+    border-radius: 40px;
+    font-size: 2rem;
     border: 1px solid grey;
 }
 
 #applied-course-status {
+    font-size: 2rem;
     margin: 3%;
 }
 
@@ -87,11 +102,12 @@ form{
 #courses-list li{
     display: flex;
     justify-content: space-between;
-    background-color: rgb(230, 239, 236);
-    border-radius: 12px;
-    margin: 0 0 0.8rem 0;
+    background-color: rgb(230, 241, 227);
+    border-radius: 40px;
+    margin: 0 0 1.5rem 0;
     width: 100%;
     box-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+
 }
 
 .name-span {
@@ -101,6 +117,7 @@ form{
 
 .course-info{
     margin: 2% 3%;
+    font-size: 2rem;
 }
 .divide-span {
     color: rgb(180, 180, 180);
@@ -112,6 +129,14 @@ form{
 .delete-course button{
     white-space: nowrap;
     border: 1px solid grey;
-    border-radius: 3px;
+    border-radius: 10px;
     color: rgb(57, 57, 57);
+    font-size: 2rem;
+}
+
+#setting-btn {
+    position: fixed;
+    bottom: 3%;
+    right: 5%;
+    width: 100px;
 }
