@@ -20,6 +20,11 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
     private final UserService userService;
 
+    @GetMapping("/authorization")
+    public ApiResponse<?> checkAuthorization(@Session(attr = SessionConst.AUTHORIZATION) Boolean authorization){
+        return ApiResponseCreator.success(authorization);
+    }
+
     @PostMapping("/signup")
     public ApiResponse<?> signup(@RequestBody @Valid UserSignUpReqDTO userSignUpReqDTO){
         userService.signup(userSignUpReqDTO);
