@@ -8,11 +8,11 @@ import org.springframework.web.servlet.HandlerInterceptor;
 
 import java.util.Optional;
 
-public class AuthorizationCheckInterceptor implements HandlerInterceptor {
+public class AuthenticationCheckInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         HttpSession session = request.getSession();
-        Optional.ofNullable(session.getAttribute(SessionConst.AUTHORIZATION))
+        Optional.ofNullable(session.getAttribute(SessionConst.AUTHENTICATION))
                 .orElseThrow(() -> new IllegalAccessException("로그인이 필요합니다."));
         return true;
     }

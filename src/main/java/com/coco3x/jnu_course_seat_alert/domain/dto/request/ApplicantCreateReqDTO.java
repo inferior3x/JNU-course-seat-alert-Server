@@ -1,8 +1,5 @@
 package com.coco3x.jnu_course_seat_alert.domain.dto.request;
 
-import com.coco3x.jnu_course_seat_alert.config.annotation.CourseCode;
-import com.coco3x.jnu_course_seat_alert.config.annotation.CourseName;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import jakarta.validation.constraints.NotBlank;
@@ -15,7 +12,6 @@ import lombok.Getter;
 public class ApplicantCreateReqDTO {
     @NotBlank(message = "Invalid code")
     private String code;
-
     @NotBlank(message = "Invalid name")
     private String name;
 

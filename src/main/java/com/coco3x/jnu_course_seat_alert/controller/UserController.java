@@ -20,6 +20,11 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
     private final UserService userService;
 
+    @GetMapping("/authentication")
+    public ApiResponse<?> checkAuthorization(@Session(attr = SessionConst.AUTHENTICATION) Boolean authentication){
+        return ApiResponseCreator.success(authentication);
+    }
+
     @PostMapping("/signup")
     public ApiResponse<?> signup(@RequestBody @Valid UserSignUpReqDTO userSignUpReqDTO){
         userService.signup(userSignUpReqDTO);
@@ -30,21 +35,21 @@ public class UserController {
     public ApiResponse<?> login(HttpSession session, @RequestBody @Valid UserLogInReqDTO userLogInReqDTO){
         Long id = userService.login(userLogInReqDTO);
         session.setAttribute(SessionConst.ID, id);
-        session.setAttribute(SessionConst.AUTHORIZATION, true);
+        session.setAttribute(SessionConst.AUTHENTICATION, true);
         return ApiResponseCreator.success(new ApiMessage("로그인 완료"));
     }
 
     @PostMapping("logout")
     public ApiResponse<?> logout(HttpSession session, @Session(attr = "id") Long id){
         session.removeAttribute(SessionConst.ID);
-        session.removeAttribute(SessionConst.AUTHORIZATION);
+        session.removeAttribute(SessionConst.AUTHENTICATION);
         return ApiResponseCreator.success(new ApiMessage("로그아웃 완료"));
     }
 
     @DeleteMapping("/withdraw")
     public ApiResponse<?> withdraw(HttpSession session, @Session(attr = "id") Long id){
         session.removeAttribute(SessionConst.ID);
-        session.removeAttribute(SessionConst.AUTHORIZATION);
+        session.removeAttribute(SessionConst.AUTHENTICATION);
         userService.withdraw(id);
         return ApiResponseCreator.success(new ApiMessage("탈퇴 완료"));
     }
