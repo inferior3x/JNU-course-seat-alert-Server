@@ -5,6 +5,9 @@ URL = 'https://hakstd.jnu.ac.kr/web/Suup/TimeTable/Suup053C.aspx'
 CHROME_PATH = 'C:\Program Files\Google\Chrome\Application\chrome.exe'
 
 # dropdown
+YEAR_DD_ATT = '#ContentPlaceHolder_ContentPlaceHolderSub_ddlYear'
+
+# dropdown
 TERM_DD_ATT = '#ContentPlaceHolder_ContentPlaceHolderSub_ddlTerm'
 
 # dropdown

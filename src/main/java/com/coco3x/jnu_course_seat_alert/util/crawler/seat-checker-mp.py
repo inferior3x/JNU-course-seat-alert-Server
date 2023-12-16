@@ -149,6 +149,7 @@ else:
     from modules.config.crawler_config import (
         URL, 
         COURSE_NAME_INPUT_ATT,
+        YEAR_DD_ATT,
         TERM_DD_ATT,
         GRADE_DD_ATT,
         SEARCH_BTN_ATT,
@@ -174,6 +175,7 @@ else:
         mutated_courses = []
         for course_to_find in courses_to_find:
             #드랍다운 선택
+            await set_dropdown_by_index(page, YEAR_DD_ATT, "1") #임시
             await set_dropdown_by_index(page, TERM_DD_ATT, "2")
             await set_dropdown_by_index(page, GRADE_DD_ATT, course_to_find[2]) #'grade'
             
