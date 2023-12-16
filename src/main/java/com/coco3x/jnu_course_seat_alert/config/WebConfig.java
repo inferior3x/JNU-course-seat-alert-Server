@@ -1,7 +1,7 @@
 package com.coco3x.jnu_course_seat_alert.config;
 
 import com.coco3x.jnu_course_seat_alert.config.annotation.SessionMethodArgumentResolver;
-import com.coco3x.jnu_course_seat_alert.interceptor.AuthorizationCheckInterceptor;
+import com.coco3x.jnu_course_seat_alert.interceptor.AuthenticationCheckInterceptor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
@@ -20,11 +20,12 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new AuthorizationCheckInterceptor())
+        registry.addInterceptor(new AuthenticationCheckInterceptor())
                 .addPathPatterns("/api/**")
                 .excludePathPatterns(
                         "/api/user/login",
-                        "/api/user/signup"
+                        "/api/user/signup",
+                        "/api/user/authentication"
                 );
     }
 
