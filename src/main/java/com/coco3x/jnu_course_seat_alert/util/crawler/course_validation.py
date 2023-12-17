@@ -2,9 +2,9 @@ import nest_asyncio
 import asyncio
 import sys
 import json
-import time
 from modules.config.crawler_config import (
     URL, 
+    YEAR_DD_ATT,
     TERM_DD_ATT,
     GRADE_DD_ATT, 
     COURSE_NAME_INPUT_ATT, 
@@ -25,6 +25,9 @@ async def main():
     browser = await create_browser(False)
     pages = await create_new_pages(browser, URL, 1)
     
+    await set_dropdown_by_index(pages[0], YEAR_DD_ATT, "1") #임시
+    await set_dropdown_by_index(pages[0], TERM_DD_ATT, "2") #임시
+
     while True:
         line = sys.stdin.readline()
         if not line:
@@ -40,7 +43,6 @@ async def main():
             found = 0
 
             #드랍다운 선택
-            await set_dropdown_by_index(pages[0], TERM_DD_ATT, "2") #임시
             await set_dropdown_by_index(pages[0], GRADE_DD_ATT, course_grade)
             
             #여석 가져올 교과목명 입력
@@ -84,6 +86,3 @@ async def main():
 
 nest_asyncio.apply()
 asyncio.run(main())
-
-
-
