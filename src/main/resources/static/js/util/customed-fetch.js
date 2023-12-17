@@ -5,6 +5,14 @@ function checkStatus(status){
     showOkModal("계정이 로그아웃되었습니다.", ()=>{window.location.href = '/login';});
     return;
   }
+  if (status === 404){
+    window.location.href = '/404';
+    return;
+  }
+  if (status === 500){
+    window.location.href = '/500';
+    return;
+  }
   if (status === 429){
     showOkModal("요청이 너무 많습니다.\n잠시 후 시도해주세요.");
     return;
